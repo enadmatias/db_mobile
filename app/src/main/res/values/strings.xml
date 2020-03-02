@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">UniVisit</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+<!--    my custom strings-->
+    <string-array name="array_purpose">
+        <item>Clearance</item>
+        <item>ID</item>
+        <item>Visit</item>
+        <item>Payment</item>
+        <item>Diploma/TOR</item>
+        <item>Others</item>
+    </string-array>
+
+</resources>

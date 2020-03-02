@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.univisit">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".AddVisitActivity"
+            android:parentActivityName=".UserNavigationActivity"
+            android:theme="@style/WhiteTheme"></activity>
+        <activity
+            android:name=".MyAccountActivity"
+            android:parentActivityName=".UserNavigationActivity"
+            android:theme="@style/WhiteTheme" />
+        <activity
+            android:name=".UserNavigationActivity"
+            android:theme="@style/WhiteThemeNoActionBar" />
+        <activity
+            android:name=".CreateAcctActivity"
+            android:theme="@style/BlueThemeNoActionBar" />
+        <activity
+            android:name=".SigninActivity"
+            android:theme="@style/WhiteThemeNoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/WhiteThemeNoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

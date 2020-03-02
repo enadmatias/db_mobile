@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MyAccountActivity"
+    android:background="#F4F4F4">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="22dp">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/civ_user_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_landscape"
+        app:civ_border="false"
+        android:layout_gravity="center"
+        android:layout_marginTop="22dp"/>
+
+        <Button
+            android:id="@+id/btn_browse_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Browse"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Basic Info"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="#000"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lastname"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="#000"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:alpha="0.6"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/et_lastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn_rounded"
+        android:backgroundTint="@color/colorWhite"
+        android:orientation="horizontal"
+        android:inputType="text"
+        android:padding="10dp"
+        android:hint="Enter lastname"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Firstname"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="#000"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:alpha="0.6"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/et_firstname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn_rounded"
+        android:backgroundTint="@color/colorWhite"
+        android:orientation="horizontal"
+        android:inputType="text"
+        android:padding="10dp"
+        android:hint="Enter lastname"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginTop="6dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone number"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#000"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:alpha="0.6"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/et_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_rounded"
+            android:backgroundTint="@color/colorWhite"
+            android:orientation="horizontal"
+            android:inputType="number"
+            android:padding="10dp"
+            android:hint="Enter phone number"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginTop="6dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#000"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:alpha="0.6"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/et_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_rounded"
+            android:backgroundTint="@color/colorWhite"
+            android:inputType="text"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:hint="Enter address"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginTop="6dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Account"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#000"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#000"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:alpha="0.6"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_rounded"
+            android:backgroundTint="@color/colorWhite"
+            android:orientation="horizontal"
+            android:inputType="text"
+            android:padding="10dp"
+            android:hint="Enter username"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginTop="6dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email address"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#000"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:alpha="0.6"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/et_email_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_rounded"
+            android:backgroundTint="@color/colorWhite"
+            android:orientation="horizontal"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:hint="Enter email address"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginTop="6dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#000"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:alpha="0.6"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_rounded"
+            android:backgroundTint="@color/colorWhite"
+            android:inputType="textPassword"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:hint="Enter password"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginTop="6dp"/>
+
+    </LinearLayout>
+
+</ScrollView>

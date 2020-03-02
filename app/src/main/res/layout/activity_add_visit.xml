@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".AddVisitActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#F4F4F4"
+        android:padding="22dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I am a/an"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="#000"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:alpha="0.6"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn_rounded"
+        android:backgroundTint="@color/colorWhite"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:layout_marginTop="6dp">
+
+        <RadioGroup
+            android:id="@+id/rg_visitor_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rdbtn_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parent"
+                android:buttonTint="@color/colorBlue"/>
+
+            <RadioButton
+                android:id="@+id/rdbtn_student"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Student"
+                android:buttonTint="@color/colorBlue"/>
+
+            <RadioButton
+                android:id="@+id/rdbtn_alumni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alumni"
+                android:buttonTint="@color/colorBlue"/>
+
+            <RadioButton
+                android:id="@+id/rdbtn_others"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other"
+                android:buttonTint="@color/colorBlue"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="School to visit"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="#000"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:alpha="0.6"
+        android:layout_marginTop="16dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn_rounded"
+        android:backgroundTint="@color/colorWhite"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_marginTop="6dp">
+
+        <TextView
+            android:id="@+id/tv_school_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="University of Cebu"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/colorBlue"
+            style="@style/TextAppearance.AppCompat.Small"/>
+
+    </LinearLayout>
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Visit Date"
+    android:fontFamily="@font/poppins_semibold"
+    android:textColor="#000"
+    style="@style/TextAppearance.AppCompat.Small"
+    android:alpha="0.6"
+    android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/et_choose_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn_rounded"
+        android:backgroundTint="@color/colorWhite"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:hint="Choose date"
+        android:drawableRight="@drawable/ic_calendar"
+        android:drawableTint="#808080"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:focusable="false"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Visit Time"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="#000"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:alpha="0.6"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/et_choose_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn_rounded"
+        android:backgroundTint="@color/colorWhite"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:hint="Choose time"
+        android:drawableRight="@drawable/ic_time"
+        android:drawableTint="#808080"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginTop="6dp"
+        android:focusable="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Purpose"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#000"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:alpha="0.6"
+            android:layout_marginTop="16dp"/>
+
+        <Spinner
+            android:id="@+id/spinner_purpose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/custom_btn_rounded"
+            android:backgroundTint="@color/colorWhite"
+            android:entries="@array/array_purpose"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload a Valid ID"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#000"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:alpha="0.6"
+            android:layout_marginTop="16dp"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/btn_browse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Browse"
+                android:layout_marginRight="12dp"/>
+            
+            <ImageView
+                android:id="@+id/iv_valid_id"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_identification"
+                android:scaleType="centerCrop"
+                android:layout_margin="6dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valid ID #"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#000"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:alpha="0.6"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/et_val_id_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_rounded"
+            android:backgroundTint="@color/colorWhite"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:hint="12345"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginTop="6dp"/>
+
+    </LinearLayout>
+
+
+</ScrollView>
