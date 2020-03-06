@@ -9,9 +9,11 @@ import androidx.fragment.app.FragmentActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.univisit.Fragments.HomeFragment;
 import com.example.univisit.Fragments.VisitsFragment;
@@ -21,11 +23,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class UserNavigationActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView userBottomView;
+    Session session;
+    Bundle bundle;
+    private static   final String TAG = "UserNavigationActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_navigation);
+
+
+        session = new Session(UserNavigationActivity.this);
 
         userBottomView = (BottomNavigationView) findViewById(R.id.navbar_user);
         userBottomView.setOnNavigationItemSelectedListener(this);
@@ -90,6 +98,8 @@ public class UserNavigationActivity extends AppCompatActivity implements BottomN
     public void toMainPage() {
         Intent intent = new Intent(UserNavigationActivity.this, MainActivity.class);
         startActivity(intent);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        session.logout();
     }
 
     @Override
@@ -110,5 +120,50 @@ public class UserNavigationActivity extends AppCompatActivity implements BottomN
         getSupportFragmentManager().beginTransaction().replace(R.id.user_content_container, selectedFragment).commit();
 
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!session.isLoggin()){
+            startActivity(new Intent(UserNavigationActivity.this, MainActivity.class));
+        }
+        Log.v(TAG, "onstart");
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!session.isLoggin()) {
+            startActivity(new Intent(UserNavigationActivity.this, MainActivity.class));
+        }
+        Log.d(TAG,"onResume invoked");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d(TAG,"onPause invoked");
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop invoked");
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.v(TAG, "onDestroy");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
     }
 }

@@ -48,8 +48,8 @@ public class VisitsFragment extends Fragment {
         vViewPager = view.findViewById(R.id.viewpager);
 
         PagerAdapter adapter = new PagerAdapter(getFragmentManager());
-        adapter.AddFragment(new UpcomingVisitFragment(), "Upcoming");
-        adapter.AddFragment(new RecentVisitFragment(), "Recent");
+        adapter.AddFragment(new UpcomingVisitFragment(), "Pending");
+        adapter.AddFragment(new RecentVisitFragment(), "Accepted");
         adapter.AddFragment(new AllVisitFragment(), "All");
 
         vViewPager.setAdapter(adapter);
@@ -57,6 +57,8 @@ public class VisitsFragment extends Fragment {
 
         return view;
     }
+
+    public void getData(){}
 
 
 

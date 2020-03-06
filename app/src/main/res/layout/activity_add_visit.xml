@@ -71,7 +71,20 @@
 
     </LinearLayout>
 
-    <TextView
+    <EditText
+        android:id="@+id/et_others_visitor_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn_rounded"
+        android:backgroundTint="@color/colorWhite"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:hint="If Others, please speficy"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"/>
+
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="School to visit"
@@ -170,6 +183,19 @@
             android:backgroundTint="@color/colorWhite"
             android:entries="@array/array_purpose"/>
 
+        <EditText
+            android:id="@+id/et_specify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_rounded"
+            android:backgroundTint="@color/colorWhite"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:hint="If Others, please speficy"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -200,6 +226,15 @@
                 android:src="@drawable/ic_identification"
                 android:scaleType="centerCrop"
                 android:layout_margin="6dp"/>
+
+            <EditText
+                android:id="@+id/et_file_name"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="Enter file name"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                />
 
         </LinearLayout>
 

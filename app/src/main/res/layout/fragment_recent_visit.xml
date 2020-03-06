@@ -55,12 +55,20 @@
 
     </LinearLayout>
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        />
     <LinearLayout
         android:id="@+id/layout_no_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="30dp"
@@ -76,5 +84,6 @@
             android:layout_marginTop="10dp"/>
 
     </LinearLayout>
+
 
 </LinearLayout>

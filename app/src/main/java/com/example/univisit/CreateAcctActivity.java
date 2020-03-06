@@ -87,6 +87,7 @@ public class CreateAcctActivity extends AppCompatActivity implements View.OnClic
                     JSONObject jsonObject = new JSONObject(response);
                     String message = jsonObject.getString("message");
                     if(message.equals("success")){
+                        Toast.makeText(CreateAcctActivity.this, "Successfully created your account. Please login.", Toast.LENGTH_SHORT).show();
                         toHome();
                     }
                 } catch (JSONException e) {

@@ -11,8 +11,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,8 +33,24 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddVisitActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
 
@@ -39,16 +58,24 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
     private RadioGroup rdgVisitorType;
     private RadioButton rdbtnParent, rdbtnStudent, rdbtnAlumni, rdbtnOthers;
     private TextView tvSchoolName;
-    private EditText etVisitDate, etVisitTime, etIDNumber;
+    private EditText etVisitDate, etVisitTime, etIDNumber, etFileName, etOtherSpecify, etOtherVisitors;
     private Spinner spinnerPurpose;
     private Button btnBrowse;
     private ImageView ivValidId;
 
     String selectedVisitorType, selectedPurpose;
-    private int vYear, vMonth, vDay, vHour, vMinute;
+    private int vYear, vMonth, vDay, vHour, vMinute, vSeconds;
     private String strVisitDate, strVisitTime, am_pm;
     private final Calendar c = Calendar.getInstance();
     Uri uriValidId;
+    Bitmap bitmap;
+    Session session;
+
+    String getTextOthers, getTextOtherVisitors;
+
+    private SimpleDateFormat sdf;
+    private String final_time, final_date, file_name, validId;
+
 
     private static final int PICK_IMAGE = 100;
 
@@ -70,6 +97,9 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
         spinnerPurpose = findViewById(R.id.spinner_purpose);
         btnBrowse = findViewById(R.id.btn_browse);
         ivValidId = findViewById(R.id.iv_valid_id);
+        etFileName = findViewById(R.id.et_file_name);
+        etOtherSpecify = findViewById(R.id.et_specify);
+        etOtherVisitors = findViewById(R.id.et_others_visitor_type);
 
         btnBrowse.setOnClickListener(this);
 
@@ -77,6 +107,8 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
         etVisitDate.setOnClickListener(this);
         etVisitTime.setOnClickListener(this);
         spinnerPurpose.setOnItemSelectedListener(this);
+
+        session = new Session(this);
 
     }
 
@@ -114,18 +146,49 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
         switch (id) {
             case R.id.action_confirm:
                 if (isNotEmptyFields()) {
-                    showSuccessDialog();
-                }
+
+                    if (selectedPurpose.equals("Others")) {
+                        getTextOthers = etOtherSpecify.getText().toString();
+                        selectedPurpose = getTextOthers;
+                    }
+
+                    if (selectedVisitorType.equals("Other")) {
+                        getTextOtherVisitors = etOtherVisitors.getText().toString();
+                        selectedVisitorType = getTextOtherVisitors;
+                    }
+
+                    bookVisit();
+
+            }
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void showSuccessDialog() {
+
+
+    private void showSuccessDialog(String id, String date, String time) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final View customLayout = getLayoutInflater().inflate(R.layout.custom_success_dialog, null);
         builder.setView(customLayout);
+
+        Button btnKeep = customLayout.findViewById(R.id.btn_keep);
+        TextView tv_id = customLayout.findViewById(R.id.tv_visit_id);
+        TextView tv_name = customLayout.findViewById(R.id.tv_name);
+        TextView tv_datetime =customLayout.findViewById(R.id.tv_date_time);
+
+        tv_id.setText(id);
+        tv_name.setText(session.getfname() + " " + session.getlname());
+        tv_datetime.setText(date + " | " + time);
+        btnKeep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               finish();
+            }
+        });
+
 
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -135,7 +198,8 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
 
         String visit_date = etVisitDate.getText().toString().trim();
         String visit_time = etVisitTime.getText().toString().trim();
-        String id = etIDNumber.getText().toString().trim();
+        validId = etIDNumber.getText().toString().trim();
+         file_name =  etFileName.getText().toString().trim();
 
         if (visit_date.isEmpty()) {
             Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
@@ -147,11 +211,15 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
             return false;
         }
 
-        if (id.isEmpty()) {
+        if (validId.isEmpty()) {
             Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
+        if(file_name.isEmpty()){
+            Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 
@@ -189,7 +257,13 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
 
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             uriValidId = data.getData();
-            ivValidId.setImageURI(uriValidId);
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriValidId);
+                ivValidId.setImageURI(uriValidId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -197,17 +271,17 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (rdbtnAlumni.isChecked()) {
             selectedVisitorType = rdbtnAlumni.getText().toString();
-            Toast.makeText(this, selectedVisitorType+"", Toast.LENGTH_SHORT).show();
+            etOtherVisitors.setVisibility(View.GONE);
         }else if (rdbtnParent.isChecked()) {
             selectedVisitorType = rdbtnParent.getText().toString();
-            Toast.makeText(this, selectedVisitorType+"", Toast.LENGTH_SHORT).show();
+            etOtherVisitors.setVisibility(View.GONE);
         }else if (rdbtnStudent.isChecked()) {
             selectedVisitorType = rdbtnStudent.getText().toString();
-            Toast.makeText(this, selectedVisitorType+"", Toast.LENGTH_SHORT).show();
+            etOtherVisitors.setVisibility(View.GONE);
         }
         else if (rdbtnOthers.isChecked()){
             selectedVisitorType = rdbtnOthers.getText().toString();
-            Toast.makeText(this, selectedVisitorType+"", Toast.LENGTH_SHORT).show();
+            etOtherVisitors.setVisibility(View.VISIBLE);
         }
     }
 
@@ -222,7 +296,7 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                     Calendar mCalendar = Calendar.getInstance();
                     mCalendar.set(year, month, dayOfMonth);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     strVisitDate = simpleDateFormat.format(mCalendar.getTime());
 
                     etVisitDate.setText(strVisitDate);
@@ -235,6 +309,8 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
     public void getVisitTime() {
         vHour = c.get(Calendar.HOUR_OF_DAY);
         vMinute = c.get(Calendar.MINUTE);
+        vSeconds = c.get(Calendar.SECOND);
+        final String sec = String.valueOf(vSeconds);
 
         TimePickerDialog dialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
@@ -250,6 +326,7 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
 
                         strVisitTime= (hourOfDay+":"+minute +" "+am_pm);
                         etVisitTime.setText(strVisitTime);
+                        final_time = (hourOfDay + ":" + minute + ":" + sec);
                     }
                 }, vHour, vMinute, true);
         dialog.show();
@@ -262,6 +339,14 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
         switch (sid) {
             case R.id.spinner_purpose:
                 selectedPurpose = this.spinnerPurpose.getItemAtPosition(position).toString();
+
+                if (selectedPurpose.equals("Others")) {
+                    etOtherSpecify.setVisibility(View.VISIBLE);
+
+                }else {
+                    etOtherSpecify.setVisibility(View.GONE);
+                }
+
                 break;
         }
     }
@@ -270,4 +355,67 @@ public class AddVisitActivity extends AppCompatActivity implements View.OnClickL
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-}
+
+    private String imagetoString(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        byte [] imageBytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(imageBytes,Base64.DEFAULT);
+
+    }
+
+    public void bookVisit(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, API.URL_PATH_UPLOAD_DATA, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String message = jsonObject.getString("message");
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    if(message.equals("success")){
+                        for(int i=0; i<jsonArray.length(); i++) {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            String date = object.getString("date");
+                            String time = object.getString("time");
+                            String id = object.getString("record_id");
+                            showSuccessDialog(id, date, time);
+
+                        }
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params= new HashMap<>();
+                params.put("id", session.toString());
+                params.put("selectedType", selectedVisitorType);
+                params.put("schoolName", strSchoolName);
+                params.put("date", strVisitDate);
+                params.put("time", final_time);
+                params.put("purpose", selectedPurpose);
+                params.put("image", imagetoString(bitmap));
+                params.put("name", file_name);
+                params.put("validId", validId);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+    }
+    }
+

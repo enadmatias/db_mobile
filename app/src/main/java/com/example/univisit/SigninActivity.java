@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +31,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     private EditText etUsername, etPassw;
     private Button btnSignin;
     private TextView tvCreate;
-    private String PATH_URL_LOGIN = "http://10.0.2.2:8080/dbproject/login.php";
+    Session session;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,10 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
         btnSignin.setOnClickListener(this);
         tvCreate.setOnClickListener(this);
+        session = new Session(this);
+
+
+
 
     }
 
@@ -57,7 +63,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                     String uname = etUsername.getText().toString();
                     String pwd = etPassw.getText().toString();
                     Login(uname,pwd);
-//                    toHome();
                 }
                 break;
             case R.id.tv_user_create:
@@ -67,7 +72,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void Login(final String name, final String pwd){
-        StringRequest request = new StringRequest(Request.Method.POST, PATH_URL_LOGIN, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, API.PATH_URL_LOGIN, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -81,9 +86,17 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                             String id = object.getString("id").trim();
                             String username = object.getString("username").trim();
                             String password = object.getString("password").trim();
+                            String fname = object.getString("fname").trim();
+                            String lname = object.getString("lname").trim();
+                            String address = object.getString("address").trim();
+                            String contact = object.getString("contact").trim();
+                            String email = object.getString("email").trim();
+                            String path = object.getString("path").trim();
                             Session session = new Session(getApplicationContext());
-                            session.createSession(id);
-                            toHome();
+
+                                toHome();
+                                session.createSession(id, fname, lname, address, contact, email, username, path);
+
 
                         }
                     }
